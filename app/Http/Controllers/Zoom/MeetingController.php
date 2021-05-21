@@ -25,15 +25,18 @@ class MeetingController extends Controller
         $data['meetings'] = array_map(function (&$m) {
             $m['start_at'] = $this->toUnixTimeStamp($m['start_time'], $m['timezone']);
             return $m;
+            
         }, $data['meetings']);
-
-        return [
-            'success' => $response->ok(),
-            'data' => $data,
-        ];
-        dd($data);
+        
+        // return [
+        //     'success' => $response->ok(),
+        //     'data' => $data,
+        // ];
+        return view('cuong', compact('data'));
+        
         
     }
+    
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -108,7 +111,7 @@ class MeetingController extends Controller
             'type' => self::MEETING_TYPE_SCHEDULE,
             'start_time' => (new \DateTime($data['start_time']))->format('Y-m-d\TH:i:s'),
             'duration' => 30,
-            'agenda' => $data['agenda'],
+            
             'settings' => [
                 'host_video' => false,
                 'participant_video' => false,
